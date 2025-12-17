@@ -1,0 +1,56 @@
+package ledger;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+/**
+ * Represents a single immutable financial transaction.
+ */
+public class Transaction {
+
+    private final UUID id;
+    private final BigDecimal amount;
+    private final String description;
+    private final LocalDateTime timestamp;
+
+    public Transaction(BigDecimal amount, String description) {
+        if (amount == null) {
+            throw new IllegalArgumentException("Amount cannot be null");
+        }
+        if (description == null || description.isBlank()) {
+            throw new IllegalArgumentException("Description cannot be empty");
+        }
+
+        this.id = UUID.randomUUID();
+        this.amount = amount;
+        this.description = description;
+        this.timestamp = LocalDateTime.now();
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", description='" + description + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
+    }
+}

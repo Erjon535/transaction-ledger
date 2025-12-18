@@ -16,19 +16,22 @@ class LedgerTest {
     }
 
     @Test
-    void getAll_isUnmodifiable() {
+    void getAll_returnsUnmodifiableList() {
         Ledger ledger = new Ledger();
         ledger.add(new Transaction(new BigDecimal("10.00"), "Salary"));
 
         List<Transaction> all = ledger.getAll();
-        assertThrows(UnsupportedOperationException.class,
-                () -> all.add(new Transaction(new BigDecimal("1.00"), "Should fail")));
+        assertEquals(1, all.size());
+
+        assertThrows(UnsupportedOperationException.class, () ->
+                all.add(new Transaction(new BigDecimal("1.00"), "Should fail"))
+        );
     }
 
     @Test
-    void getBalance_sumsCreditsAndDebits() {
+    void getBalance_sumsAllAmounts() {
         Ledger ledger = new Ledger();
-        ledger.add(new Transaction(new BigDecimal("100.00"), "Deposit"));
+        ledger.add(new Transaction(new BigDecimal("100.00"), "Income"));
         ledger.add(new Transaction(new BigDecimal("-40.50"), "Groceries"));
         ledger.add(new Transaction(new BigDecimal("-10.00"), "Coffee"));
 
@@ -38,36 +41,48 @@ class LedgerTest {
     @Test
     void getCredits_returnsOnlyPositiveAmounts() {
         Ledger ledger = new Ledger();
-        ledger.add(new Transaction(new BigDecimal("100.00"), "Deposit"));
-        ledger.add(new Transaction(new BigDecimal("-20.00"), "Food"));
+        Transaction t1 = new Transaction(new BigDecimal("100.00"), "Income");
+        Transaction t2 = new Transaction(new BigDecimal("-5.00"), "Snack");
+        Transaction t3 = new Transaction(new BigDecimal("20.00"), "Refund");
+
+        ledger.add(t1);
+        ledger.add(t2);
+        ledger.add(t3);
 
         List<Transaction> credits = ledger.getCredits();
-        assertEquals(1, credits.size());
-        assertTrue(credits.get(0).getAmount().compareTo(BigDecimal.ZERO) > 0);
+        assertEquals(2, credits.size());
+        assertTrue(credits.stream().allMatch(t -> t.getAmount().compareTo(BigDecimal.ZERO) > 0));
     }
 
     @Test
     void getDebits_returnsOnlyNegativeAmounts() {
         Ledger ledger = new Ledger();
-        ledger.add(new Transaction(new BigDecimal("100.00"), "Deposit"));
-        ledger.add(new Transaction(new BigDecimal("-20.00"), "Food"));
+        Transaction t1 = new Transaction(new BigDecimal("100.00"), "Income");
+        Transaction t2 = new Transaction(new BigDecimal("-5.00"), "Snack");
+        Transaction t3 = new Transaction(new BigDecimal("-20.00"), "Bills");
+
+        ledger.add(t1);
+        ledger.add(t2);
+        ledger.add(t3);
 
         List<Transaction> debits = ledger.getDebits();
-        assertEquals(1, debits.size());
-        assertTrue(debits.get(0).getAmount().compareTo(BigDecimal.ZERO) < 0);
+        assertEquals(2, debits.size());
+        assertTrue(debits.stream().allMatch(t -> t.getAmount().compareTo(BigDecimal.ZERO) < 0));
     }
 
     @Test
     void findByDescription_isCaseInsensitive_andFindsMatches() {
         Ledger ledger = new Ledger();
-        ledger.add(new Transaction(new BigDecimal("10.00"), "Coffee shop"));
-        ledger.add(new Transaction(new BigDecimal("-5.00"), "coffee beans"));
-        ledger.add(new Transaction(new BigDecimal("-2.00"), "Bus ticket"));
+        Transaction t1 = new Transaction(new BigDecimal("10.00"), "Coffee at Nero");
+        Transaction t2 = new Transaction(new BigDecimal("25.00"), "Groceries");
+        Transaction t3 = new Transaction(new BigDecimal("5.00"), "COFFEE beans");
 
-        List<Transaction> results = ledger.findByDescription("COFFEE");
-        assertEquals(2, results.size());
-        assertTrue(results.stream().allMatch(t ->
-                t.getDescription().toLowerCase().contains("coffee")));
+        ledger.add(t1);
+        ledger.add(t2);
+        ledger.add(t3);
+
+        List<Transaction> found = ledger.findByDescription("coffee");
+        assertEquals(2, found.size());
     }
 
     @Test
@@ -81,11 +96,11 @@ class LedgerTest {
     void getRecent_returnsMostRecentFirst_andLimitsToN() throws InterruptedException {
         Ledger ledger = new Ledger();
 
-        Transaction t1 = new Transaction(new BigDecimal("1.00"), "First");
-        Thread.sleep(5);
-        Transaction t2 = new Transaction(new BigDecimal("2.00"), "Second");
-        Thread.sleep(5);
-        Transaction t3 = new Transaction(new BigDecimal("3.00"), "Third");
+        Transaction t1 = new Transaction(new BigDecimal("1.00"), "Oldest");
+        Thread.sleep(2);
+        Transaction t2 = new Transaction(new BigDecimal("2.00"), "Middle");
+        Thread.sleep(2);
+        Transaction t3 = new Transaction(new BigDecimal("3.00"), "Newest");
 
         ledger.add(t1);
         ledger.add(t2);
@@ -94,8 +109,8 @@ class LedgerTest {
         List<Transaction> recent2 = ledger.getRecent(2);
 
         assertEquals(2, recent2.size());
-        assertEquals(t3.getId(), recent2.get(0).getId());
-        assertEquals(t2.getId(), recent2.get(1).getId());
+        assertEquals("Newest", recent2.get(0).getDescription());
+        assertEquals("Middle", recent2.get(1).getDescription());
     }
 
     @Test

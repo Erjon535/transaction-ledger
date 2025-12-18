@@ -3,7 +3,9 @@ package ledger;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Ledger that holds and manages financial transactions.
@@ -38,5 +40,35 @@ public class Ledger {
             balance = balance.add(t.getAmount());
         }
         return balance;
+    }
+
+    public List<Transaction> getCredits() {
+        return transactions.stream()
+                .filter(t -> t.getAmount().compareTo(BigDecimal.ZERO) > 0)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    public List<Transaction> getDebits() {
+        return transactions.stream()
+                .filter(t -> t.getAmount().compareTo(BigDecimal.ZERO) < 0)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    public List<Transaction> findByDescription(String keyword) {
+        if (keyword == null || keyword.isBlank()) {
+            throw new IllegalArgumentException("Keyword cannot be empty");
+        }
+        String k = keyword.toLowerCase();
+        return transactions.stream()
+                .filter(t -> t.getDescription().toLowerCase().contains(k))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    public List<Transaction> getRecent(int n) {
+        if (n < 0) throw new IllegalArgumentException("n must be >= 0");
+        return transactions.stream()
+                .sorted(Comparator.comparing(Transaction::getTimestamp).reversed())
+                .limit(n)
+                .collect(Collectors.toUnmodifiableList());
     }
 }

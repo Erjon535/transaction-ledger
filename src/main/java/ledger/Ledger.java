@@ -14,9 +14,7 @@ public class Ledger {
 
     private final List<Transaction> transactions = new ArrayList<>();
 
-    /**
-     * Adds a transaction to the ledger.
-     */
+    /** Adds a transaction to the ledger. */
     public void add(Transaction transaction) {
         if (transaction == null) {
             throw new IllegalArgumentException("Transaction cannot be null");
@@ -24,16 +22,26 @@ public class Ledger {
         transactions.add(transaction);
     }
 
-    /**
-     * Returns an unmodifiable view of all transactions.
-     */
+    /** Convenience: create + add. */
+    public void add(BigDecimal amount, String description) {
+        add(new Transaction(amount, description));
+    }
+
+    /** Replace all transactions (used when loading from storage). */
+    void replaceAll(List<Transaction> newTransactions) {
+        if (newTransactions == null) {
+            throw new IllegalArgumentException("newTransactions cannot be null");
+        }
+        transactions.clear();
+        transactions.addAll(newTransactions);
+    }
+
+    /** Returns an unmodifiable view of all transactions. */
     public List<Transaction> getAll() {
         return Collections.unmodifiableList(transactions);
     }
 
-    /**
-     * Calculates the current balance.
-     */
+    /** Calculates the current balance. */
     public BigDecimal getBalance() {
         BigDecimal balance = BigDecimal.ZERO;
         for (Transaction t : transactions) {

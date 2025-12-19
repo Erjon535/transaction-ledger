@@ -1,26 +1,35 @@
-\# Transaction Ledger
+# Transaction Ledger
 
+A small Java application that records financial transactions (credits/debits), calculates balance, supports basic querying (search/recent), and persists data to a CSV file.
 
+## Features
 
-A simple command-line application written in Java that records financial
+- Add transactions (amount + description)
+- View current balance
+- List all transactions
+- List credits only (amount > 0)
+- List debits only (amount < 0)
+- Search transactions by description keyword
+- Show most recent N transactions
+- Save/load transactions to/from a CSV file (CSV storage)
 
-transactions and stores them locally.
+## Tech Stack
 
+- Java (JDK 21+)
+- Maven Wrapper (Windows: `mvnw.cmd`, macOS/Linux: `./mvnw`)
+- JUnit (unit tests)
 
+## Project Structure
 
-The goal of this project is to practice:
+- `src/main/java/ledger` — application code
+- `src/test/java/ledger` — unit tests
 
-\- Clean Java code
+## Getting Started (Windows PowerShell)
 
-\- File-based persistence
+### 1) Prerequisites
 
-\- Basic input validation
+Check Java is installed:
 
-\- Git version control
-
-
-
-This project is intentionally kept simple and readable.
-
-
-
+```powershell
+java -version
+@

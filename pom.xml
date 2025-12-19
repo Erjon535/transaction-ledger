@@ -31,15 +31,6 @@
         <version>3.5.2</version>
       </plugin>
 
-          <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>3.6.2</version>
-        <configuration>
-          <mainClass>ledger.Main</mainClass>
-        </configuration>
-      </plugin>
-
 
 
       <!-- Allows: .\mvnw.cmd exec:java -->

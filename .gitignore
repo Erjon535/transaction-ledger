@@ -1,4 +1,4 @@
-﻿target/
+target/
+ledger.csv
 *.log
 .DS_Store
-ledger.csv

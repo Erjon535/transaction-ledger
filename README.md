@@ -33,3 +33,28 @@ Check Java is installed:
 ```powershell
 java -version
 @
+## Example CLI Session
+
+```text
+PS> .\mvnw.cmd exec:java
+Transaction Ledger CLI
+Data file: C:\Users\loni\transaction-ledger\ledger.csv
+
+1) Add transaction
+2) Show balance
+3) List all
+4) List credits
+5) List debits
+6) Search by description
+7) Show recent (N)
+0) Save & Exit
+> 1
+Amount (e.g. 12.50 or -5.00): 12.50
+Description: lunch
+Added.
+
+> 2
+Balance: 12.50
+
+> 0
+Saved. Bye!

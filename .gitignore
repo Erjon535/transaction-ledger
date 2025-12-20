@@ -1,6 +1,4 @@
 target/
+ledger.csv
 *.log
 .DS_Store
-.idea/
-.vscode/
-*.iml

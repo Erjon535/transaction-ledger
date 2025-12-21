@@ -1,29 +1,62 @@
 # Transaction Ledger
 
-A small Java application that records financial transactions (credits/debits), calculates balance, supports basic querying (search/recent), and persists data to a CSV file.
+A simple, well-structured Java application that records financial transactions (credits and debits), calculates balances, supports querying, and persists data to a CSV file.
+
+This project demonstrates clean object-oriented design, unit testing, and practical Java tooling using Maven.
+
+---
 
 ## Features
+
 - Add transactions (amount + description)
+- Automatically assigns timestamps and unique IDs
 - View current balance
 - List all transactions
-- List credits only (amount > 0)
-- List debits only (amount < 0)
+- List credits (positive amounts only)
+- List debits (negative amounts only)
 - Search transactions by description keyword
-- Show most recent N transactions
-- Save/load transactions to/from a CSV file (CSV storage)
+- View most recent N transactions
+- Persist transactions to a CSV file
+- Interactive command-line interface (CLI)
+
+---
 
 ## Tech Stack
-- Java (JDK 21+)
-- Maven Wrapper (Windows: `mvnw.cmd`, macOS/Linux: `./mvnw`)
-- JUnit (unit tests)
+
+- Java 21+
+- Maven (via Maven Wrapper)
+- JUnit 5
+- CSV-based persistence (no external database)
+
+---
 
 ## Project Structure
-- `src/main/java/ledger` — application code
-- `src/test/java/ledger` — unit tests
+src/
+├─ main/
+│ └─ java/
+│ └─ ledger/
+│ ├─ Transaction.java # Immutable domain model
+│ ├─ Ledger.java # Core ledger logic
+│ ├─ LedgerService.java # Application/service layer
+│ ├─ CsvLedgerStore.java # CSV persistence
+│ ├─ LedgerCli.java # Command-line interface
+│ └─ Main.java # Application entry point
+└─ test/
+└─ java/
+└─ ledger/
+├─ TransactionTest.java
+└─ LedgerTest.java
+
+
+---
 
 ## Getting Started (Windows PowerShell)
 
-### 1) Prerequisites
-Check Java is installed:
+### 1. Prerequisites
+
+Verify Java is installed:
+
 ```powershell
 java -version
+
+

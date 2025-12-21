@@ -48,8 +48,7 @@ src/
       └─ ledger/
          ├─ TransactionTest.java
          └─ LedgerTest.java
-
-
+```
 
 ---
 
@@ -61,5 +60,56 @@ Verify Java is installed:
 
 ```powershell
 java -version
+```
 
+---
 
+### 2. Run Tests
+
+Run the full test suite using the Maven Wrapper:
+
+```powershell
+.\mvnw.cmd test
+```
+
+All tests should pass.
+
+---
+
+### 3. Run the Application
+
+Start the interactive CLI:
+
+```powershell
+.\mvnw.cmd exec:java
+```
+
+This launches the Transaction Ledger CLI and persists data to `ledger.csv` in the project directory.
+
+---
+
+## Example CLI Session
+
+```text
+Transaction Ledger CLI
+Data file: C:\Users\yourname\transaction-ledger\ledger.csv
+
+1) Add transaction
+2) Show balance
+3) List all
+4) List credits
+5) List debits
+6) Search by description
+7) Show recent (N)
+0) Save & Exit
+> 1
+Amount (e.g. 12.50 or -5.00): 12.50
+Description: lunch
+Added.
+
+> 2
+Balance: 12.50
+
+> 0
+Saved. Bye!
+```

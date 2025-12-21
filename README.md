@@ -31,21 +31,24 @@ This project demonstrates clean object-oriented design, unit testing, and practi
 ---
 
 ## Project Structure
+
+```text
 src/
 ├─ main/
-│ └─ java/
-│ └─ ledger/
-│ ├─ Transaction.java # Immutable domain model
-│ ├─ Ledger.java # Core ledger logic
-│ ├─ LedgerService.java # Application/service layer
-│ ├─ CsvLedgerStore.java # CSV persistence
-│ ├─ LedgerCli.java # Command-line interface
-│ └─ Main.java # Application entry point
+│  └─ java/
+│     └─ ledger/
+│        ├─ Transaction.java      # Immutable domain model
+│        ├─ Ledger.java           # Core ledger logic
+│        ├─ LedgerService.java    # Application/service layer
+│        ├─ CsvLedgerStore.java   # CSV persistence
+│        ├─ LedgerCli.java        # Command-line interface
+│        └─ Main.java             # Application entry point
 └─ test/
-└─ java/
-└─ ledger/
-├─ TransactionTest.java
-└─ LedgerTest.java
+   └─ java/
+      └─ ledger/
+         ├─ TransactionTest.java
+         └─ LedgerTest.java
+
 
 
 ---
